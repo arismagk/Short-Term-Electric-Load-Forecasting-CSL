@@ -19,7 +19,7 @@ hidden_dims = 1000
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 # convert an array of values into a dataset matrix
-def create_dataset(dataset, look_back=1):
+def create_dataset(dataset, look_back=288):
 	dataX, dataY = [], []
 	for i in range(len(dataset)-look_back-1):
 		a = dataset[i:(i+look_back), 0]
@@ -40,7 +40,7 @@ steps_ahead= (60.0/time_interval)*forecasting_horizon
 print('You want: ' + str(steps_ahead))
   
 # load the dataset
-dataframe = read_csv('/home/aris/Documents/data/lamia/amfissa.csv', usecols=[1], engine='python', skipfooter=3)
+dataframe = read_csv('/home/aris/Desktop/Short-Term-Electric-Load-Forecasting-CSL-master/price.csv', usecols=[1], engine='python', skipfooter=3)
 X = dataframe.values
 
 dataset = dataframe.values
@@ -56,7 +56,7 @@ train_size = int(len(dataset) * percentage-len(dataset)*0.25)
 test_size = len(dataset) - train_size
 train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
 # reshape into X=t and Y=t+1
-look_back = 46
+look_back = 288
 trainX, trainY = create_dataset(train, look_back)
 testX, testY = create_dataset(test, look_back)
 # reshape input to be [samples, time steps, features]
@@ -89,7 +89,7 @@ model.add(Activation('linear'))
 model.compile(loss='mean_squared_error', optimizer='rmsprop')
 
 
-model.fit(trainX, trainY, epochs=10, batch_size=1, verbose=2)
+model.fit(trainX, trainY, epochs=100, batch_size=100, verbose=2)
 # make predictions
 trainPredict = model.predict(trainX)
 testPredict = model.predict(testX)

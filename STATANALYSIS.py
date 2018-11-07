@@ -26,12 +26,12 @@ print('You want: ' + str(steps_ahead))
   
 
 #Quick Check for Autocorrelation
-series = Series.from_csv('/home/aris/Desktop/price.csv', header=0)
-lag_plot(series,lag=1)
+series = Series.from_csv('/home/aris/Desktop/Short-Term-Electric-Load-Forecasting-CSL-master/price.csv', header=0)
+lag_plot(series,lag=300)
 pyplot.show()
 
 ############################################
-plot_acf(series, lags=361)
+plot_acf(series, lags=300)
 pyplot.show()
 ##############################################
 series.hist()
